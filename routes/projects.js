@@ -1,7 +1,8 @@
-const { Project, validate } = require("../models/project");
 const express = require("express");
 const router = express.Router();
 const _ = require("lodash");
+
+const { Project, validate } = require("../models/project");
 
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
