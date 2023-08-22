@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
     enum: ["buyer", "seller"],
     required: true,
   },
+  profilePicture: {
+    type: String,
+    required: true,
+  },
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -52,6 +56,7 @@ function validateUser(user) {
     email: Joi.string().min(5).max(255).required().email(),
     password: Joi.string().min(4).max(1024).required(),
     userType: Joi.string().valid("buyer", "seller").required(),
+    profilePicture: Joi.string().required(),
   };
 
   return Joi.validate(user, schema);

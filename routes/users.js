@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
   if (user) return res.status(400).json({ errorMessage: "User with given email already registered." });
 
-  user = new User(_.pick(req.body, ["name", "email", "password", "userType"]));
+  user = new User(_.pick(req.body, ["name", "email", "password", "userType", "profilePicture"]));
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
   await user.save();
