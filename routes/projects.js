@@ -17,23 +17,23 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
-  try {
-    const projects = await Project.find();
-    return res.json(projects);
-  } catch (error) {
-    return res.status(500).json({ errorMessage: error.message });
-  }
-});
+// router.get("/", async (req, res) => {
+//   try {
+//     const projects = await Project.find();
+//     return res.json(projects);
+//   } catch (error) {
+//     return res.status(500).json({ errorMessage: error.message });
+//   }
+// });
 
-router.get("/:id", async (req, res) => {
-  try {
-    const projects = await Project.find({ userId: req.params.id });
-    return res.json(projects);
-  } catch (error) {
-    return res.status(500).json({ errorMessage: error.message });
-  }
-});
+// router.get("/:id", async (req, res) => {
+//   try {
+//     const projects = await Project.find({ userId: req.params.id });
+//     return res.json(projects);
+//   } catch (error) {
+//     return res.status(500).json({ errorMessage: error.message });
+//   }
+// });
 
 // router.put("/:id", async (req, res) => {
 //   try {

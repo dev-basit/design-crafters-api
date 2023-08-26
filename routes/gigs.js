@@ -20,8 +20,20 @@ router.post("/", auth, async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const gigs = await Gig.find().populate("user", "-_id name profilePicture").select("-_v ");
-    return res.json(gigs);
+    const titleQuery = req.query.title;
+
+    if (titleQuery) {
+      const gigs = await Gig.find({ title: { $regex: titleQuery, $options: "i" } })
+        .populate("user", "-_id name profilePicture")
+        .select("-__v");
+      return res.json(gigs);
+    } else {
+      const gigs = await Gig.find().populate("user", "_id name profilePicture").select("-__v");
+      return res.json(gigs);
+    }
+
+    // const gigs = await Gig.find().populate("user", "-_id name profilePicture").select("-_v ");
+    // return res.json(gigs);
   } catch (error) {
     return res.status(500).json({ errorMessage: error.message });
   }
@@ -29,7 +41,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const gig = await Gig.find({ _id: req.params.id }).populate("user", "-_id name profilePicture");
+    const gig = await Gig.find({ _id: req.params.id }).populate("user", "_id name profilePicture");
     return res.json(gig);
   } catch (error) {
     return res.status(500).json({ errorMessage: error.message });
@@ -38,22 +50,22 @@ router.get("/:id", async (req, res) => {
 
 router.get("/myGigs/:id", async (req, res) => {
   try {
-    const gigs = await Gig.find({ user: req.params.id }).select("-_v -_id");
+    const gigs = await Gig.find({ user: req.params.id }).select("-_v ");
     return res.json(gigs);
   } catch (error) {
     return res.status(500).json({ error: "An error occurred while fetching gigs" });
   }
 });
 
-// router.delete("/:id", async (req, res) => {
-//   try {
-//     const gig = await Gig.findByIdAndRemove(req.params.id);
-//     if (!gig) return res.status(404).json({ errorMessage: "Gig not found" });
+router.delete("/:id", async (req, res) => {
+  try {
+    const gig = await Gig.findByIdAndRemove(req.params.id);
+    if (!gig) return res.status(404).json({ errorMessage: "Gig not found" });
 
-//     return res.json({ message: "Gig deleted successfully" });
-//   } catch (error) {
-//     return res.status(500).json({ errorMessage: error.message });
-//   }
-// });
+    return res.json({ message: "Gig deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ errorMessage: error.message });
+  }
+});
 
 module.exports = router;

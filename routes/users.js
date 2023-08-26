@@ -11,6 +11,11 @@ router.get("/me", auth, async (req, res) => {
   return res.send(user);
 });
 
+router.get("/details/:id", async (req, res) => {
+  const user = await User.findById(req.params.id).select("-password");
+  return res.send(user);
+});
+
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).json({ errorMessage: error.details[0].message });
