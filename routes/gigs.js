@@ -36,6 +36,15 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.get("/myGigs/:id", async (req, res) => {
+  try {
+    const gigs = await Gig.find({ user: req.params.id }).select("-_v -_id");
+    return res.json(gigs);
+  } catch (error) {
+    return res.status(500).json({ error: "An error occurred while fetching gigs" });
+  }
+});
+
 // router.delete("/:id", async (req, res) => {
 //   try {
 //     const gig = await Gig.findByIdAndRemove(req.params.id);
