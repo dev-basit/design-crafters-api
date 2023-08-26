@@ -18,23 +18,23 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-// router.get("/", async (req, res) => {
-//   try {
-//     const gigs = await Gig.find();
-//     return res.json(gigs);
-//   } catch (error) {
-//     return res.status(500).json({ errorMessage: error.message });
-//   }
-// });
+router.get("/", async (req, res) => {
+  try {
+    const gigs = await Gig.find().populate("user", "-_id name profilePicture").select("-_v ");
+    return res.json(gigs);
+  } catch (error) {
+    return res.status(500).json({ errorMessage: error.message });
+  }
+});
 
-// router.get("/:id", async (req, res) => {
-//   try {
-//     const gigs = await Gig.find(req.params.id);
-//     return res.json(gigs);
-//   } catch (error) {
-//     return res.status(500).json({ errorMessage: error.message });
-//   }
-// });
+router.get("/:id", async (req, res) => {
+  try {
+    const gig = await Gig.find({ _id: req.params.id }).populate("user", "-_id name profilePicture");
+    return res.json(gig);
+  } catch (error) {
+    return res.status(500).json({ errorMessage: error.message });
+  }
+});
 
 // router.delete("/:id", async (req, res) => {
 //   try {

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Joi = require("joi");
 
 const gigSchema = new mongoose.Schema({
-  userId: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
@@ -61,7 +61,7 @@ const Gig = mongoose.model("Gig", gigSchema);
 
 function validateGig(gig) {
   const schema = {
-    userId: Joi.objectId().required(),
+    user: Joi.objectId().required(),
     title: Joi.string().min(4).max(200).required(),
     image: Joi.string().required(),
     description: Joi.string().min(10).max(2000).required(),
