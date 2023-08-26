@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
     const savedProject = await project.save();
     return res.json(savedProject);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(400).json({ errorMessage: error.message });
   }
 });
 
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
     const projects = await Project.find();
     return res.json(projects);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ errorMessage: error.message });
   }
 });
 
@@ -31,7 +31,7 @@ router.get("/:id", async (req, res) => {
     const projects = await Project.find({ userId: req.params.id });
     return res.json(projects);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ errorMessage: error.message });
   }
 });
 
@@ -40,21 +40,21 @@ router.get("/:id", async (req, res) => {
 //     const project = await Project.findByIdAndUpdate(req.params.id, req.body, {
 //       new: true,
 //     });
-//     if (!project) return res.status(404).json({ error: "Project not found" });
+//     if (!project) return res.status(404).json({ errorMessage: "Project not found" });
 //     return res.json(project);
 //   } catch (error) {
-//     return res.status(500).json({ error: error.message });
+//     return res.status(500).json({ errorMessage: error.message });
 //   }
 // });
 
 router.delete("/:id", async (req, res) => {
   try {
     const project = await Project.findByIdAndRemove(req.params.id);
-    if (!project) return res.status(404).json({ error: "Project not found" });
+    if (!project) return res.status(404).json({ errorMessage: "Project not found" });
 
     return res.json({ message: "Project deleted successfully" });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ errorMessage: error.message });
   }
 });
 

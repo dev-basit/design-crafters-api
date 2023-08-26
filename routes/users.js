@@ -30,4 +30,13 @@ router.post("/", async (req, res) => {
     .send(_.pick(user, ["_id", "name", "email", "userType"]));
 });
 
+router.get("/artists", auth, async (req, res) => {
+  try {
+    const sellers = await User.find({ userType: "seller" }).select("name profilePicture");
+    return res.json({ artists: sellers });
+  } catch (error) {
+    return res.status(500).json({ error: "An error occurred while fetching sellers" });
+  }
+});
+
 module.exports = router;

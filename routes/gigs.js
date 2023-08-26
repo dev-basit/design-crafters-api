@@ -1,0 +1,50 @@
+const express = require("express");
+const router = express.Router();
+const _ = require("lodash");
+
+const auth = require("../middleware/auth");
+const { Gig, validate } = require("../models/gig");
+
+router.post("/", auth, async (req, res) => {
+  const { error } = validate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  try {
+    const gig = new Gig(req.body);
+    const savedGig = await gig.save();
+    return res.json(savedGig);
+  } catch (error) {
+    return res.status(400).json({ errorMessage: error.message });
+  }
+});
+
+// router.get("/", async (req, res) => {
+//   try {
+//     const gigs = await Gig.find();
+//     return res.json(gigs);
+//   } catch (error) {
+//     return res.status(500).json({ errorMessage: error.message });
+//   }
+// });
+
+// router.get("/:id", async (req, res) => {
+//   try {
+//     const gigs = await Gig.find(req.params.id);
+//     return res.json(gigs);
+//   } catch (error) {
+//     return res.status(500).json({ errorMessage: error.message });
+//   }
+// });
+
+// router.delete("/:id", async (req, res) => {
+//   try {
+//     const gig = await Gig.findByIdAndRemove(req.params.id);
+//     if (!gig) return res.status(404).json({ errorMessage: "Gig not found" });
+
+//     return res.json({ message: "Gig deleted successfully" });
+//   } catch (error) {
+//     return res.status(500).json({ errorMessage: error.message });
+//   }
+// });
+
+module.exports = router;
