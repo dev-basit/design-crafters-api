@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 4,
+    minlength: 8,
     maxlength: 1024,
   },
   userType: {
@@ -54,7 +54,12 @@ function validateUser(user) {
   const schema = {
     name: Joi.string().min(3).max(50).required(),
     email: Joi.string().min(5).max(255).required().email(),
-    password: Joi.string().alphanum().min(8).required(),
+    password: Joi.string()
+      .regex(/^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8}$/)
+      .required()
+      .messages({
+        "string.pattern.base": "Password must be atleast 8 characters long and alphanumeic",
+      }),
     userType: Joi.string().valid("buyer", "seller").required(),
     profilePicture: Joi.string().required(),
   };
