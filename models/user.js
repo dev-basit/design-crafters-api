@@ -31,7 +31,6 @@ const userSchema = new mongoose.Schema({
   },
   experience: {
     type: Number,
-    required: true,
     min: 1,
     max: 30,
   },
@@ -43,6 +42,11 @@ const userSchema = new mongoose.Schema({
   profilePicture: {
     type: String,
     required: true,
+  },
+  aboutMe: {
+    type: String,
+    minlength: 2,
+    maxlength: 1024,
   },
 });
 
@@ -74,7 +78,7 @@ function validateUser(user) {
     //     "string.pattern.base": "Password must be atleast 8 characters long and alphanumeic",
     //   }),
     phoneNo: Joi.string().min(3).max(20).required(),
-    experience: Joi.number().integer().min(1).max(30).required(),
+    experience: Joi.number().integer().min(1).max(30),
     userType: Joi.string().valid("buyer", "seller").required(),
     profilePicture: Joi.string().required(),
   };
