@@ -23,6 +23,18 @@ const userSchema = new mongoose.Schema({
     minlength: 8,
     maxlength: 1024,
   },
+  phoneNo: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 20,
+  },
+  experience: {
+    type: Number,
+    required: true,
+    min: 1,
+    max: 30,
+  },
   userType: {
     type: String,
     enum: ["buyer", "seller"],
@@ -54,12 +66,15 @@ function validateUser(user) {
   const schema = {
     name: Joi.string().min(3).max(50).required(),
     email: Joi.string().min(5).max(255).required().email(),
-    password: Joi.string()
-      .regex(/^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8}$/)
-      .required()
-      .messages({
-        "string.pattern.base": "Password must be atleast 8 characters long and alphanumeic",
-      }),
+    password: Joi.string().min(4).max(8).required(),
+    // password: Joi.string()
+    //   .regex(/^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8}$/)
+    //   .required()
+    //   .messages({
+    //     "string.pattern.base": "Password must be atleast 8 characters long and alphanumeic",
+    //   }),
+    phoneNo: Joi.string().min(3).max(20).required(),
+    experience: Joi.number().integer().min(1).max(30).required(),
     userType: Joi.string().valid("buyer", "seller").required(),
     profilePicture: Joi.string().required(),
   };
