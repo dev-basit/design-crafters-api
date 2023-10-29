@@ -12,6 +12,11 @@ const projectSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  gig: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Gig",
+    required: true,
+  },
   // seller: {
   //   type: mongoose.Schema.Types.ObjectId,
   //   ref: "User",
@@ -31,6 +36,7 @@ function validateProject(project) {
   const schema = {
     buyer: Joi.objectId().required(),
     seller: Joi.objectId().required(),
+    gig: Joi.objectId().required(),
     // price: Joi.number().min(1).max(99999999).required(),
   };
 

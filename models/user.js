@@ -70,7 +70,7 @@ function validateUser(user) {
   const schema = {
     name: Joi.string().min(3).max(50).required(),
     email: Joi.string().min(5).max(255).required().email(),
-    password: Joi.string().min(4).max(8).required(),
+    password: Joi.string().min(8).max(1024).required(),
     // password: Joi.string()
     //   .regex(/^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8}$/)
     //   .required()
