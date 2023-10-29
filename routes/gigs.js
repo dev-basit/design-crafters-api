@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
         .select("-__v");
       return res.json(gigs);
     } else {
-      const gigs = await Gig.find().populate("user", "_id name profilePicture").select("-__v");
+      const gigs = await Gig.find(req.query).populate("user", "_id name profilePicture").select("-__v");
       return res.json(gigs);
     }
 

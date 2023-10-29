@@ -4,6 +4,15 @@ const _ = require("lodash");
 
 const { Project, validate } = require("../models/project");
 
+router.get("/", async (req, res) => {
+  try {
+    const projects = await Project.find(req.query).populate("buyer").populate("seller").populate("gig");
+    return res.json(projects);
+  } catch (error) {
+    return res.status(500).json({ errorMessage: error.message });
+  }
+});
+
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -16,15 +25,6 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ errorMessage: error.message });
   }
 });
-
-// router.get("/", async (req, res) => {
-//   try {
-//     const projects = await Project.find();
-//     return res.json(projects);
-//   } catch (error) {
-//     return res.status(500).json({ errorMessage: error.message });
-//   }
-// });
 
 // router.get("/:id", async (req, res) => {
 //   try {
